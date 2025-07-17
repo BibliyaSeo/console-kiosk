@@ -29,32 +29,37 @@ public class Kiosk {
                 System.out.println("0. 종료      | 종료");
 
                 // 숫자 입력 받기
-                int choice = getChoiceMenuId("메인");
+                int choiceMain = getChoiceMenuId("메인");
 
-
-                if (choice == 0) {
+                // 프로그램 종료
+                if (choiceMain == 0) {
                     System.out.println("키오스크 프로그램을 종료합니다.");
                     scanner.close();
                     return;
                 }
 
-                if (choice < 0 || choice >= menus.size()) {
+                // 0보다 작거나 메뉴 사이즈와 같더나 큰걸 선택했을때
+                if (choiceMain < 0 || choiceMain >= menus.size()) {
                     System.out.println("해당 번호의 메뉴가 없습니다.");
                 } else {
                     // 입력 받은 숫자가 올바르다면 인덱스로 활용하여 List에 접근하기
-                    // List<Menu>에 인덱스로 접근하면 Menu만 추출할 수 있겠죠?
-                    menuByCategory = menus.get(choice - 1);
+                    menuByCategory = menus.get(choiceMain - 1);
+                    // 메인메뉴 안 보여 주고 서브 메뉴로 넘어가기
                     showMainMenu = false;
 
                 }
             } else {
                 // 메인 메뉴 말고 카테고리별 메뉴 보여주기
-                System.out.println(menuByCategory.getCategory().toUpperCase() + " MENU");
-                // Menu가 가진 List<MenuItem>을 반복문을 활용하여 햄버거 메뉴 출력
+                System.out.println();
+                System.out.println("[" + menuByCategory.getCategory().toUpperCase() + " MENU]");
                 List<MenuItem> menuItems = menuByCategory.getMenuItems();
-                
+                // Menu가 가진 List<MenuItem>을 반복문을 활용하여 햄버거 메뉴 출력
+                for (int i = 0; i < menuItems.size(); i++) {
+                    System.out.println((i + 1) + ". " + menuItems.get(i));
+                }
 
                 // 숫자 입력 받기
+                int choiceMenu = getChoiceMenuId(menuByCategory.getCategory());
 
                 // 입력 받은 숫자가 올바르다면 인덱스로 활용해서 Menu가 가지고 있는 List<MenuItem>에 접근하기
                 // menu.getMenuItems().get(i); 같은 형식으로 하나씩 들어가서 얻어와야 합니다.
