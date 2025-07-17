@@ -31,6 +31,13 @@ public class Kiosk {
                 // 숫자 입력 받기
                 int choiceMain = getChoiceMenu("메인");
 
+                // 에러 처리
+                if (choiceMain == -9999) {
+                    System.out.println("숫자를 입력해 주세요.");
+                    System.out.println();
+                    continue;
+                }
+                
                 // 프로그램 종료
                 if (choiceMain == 0) {
                     System.out.println("키오스크 프로그램을 종료합니다.");
@@ -61,6 +68,13 @@ public class Kiosk {
                 // 숫자 입력 받기
                 int choiceMenu = getChoiceMenu(menuByCategory.getCategory());
 
+                // 에러 처리
+                if (choiceMenu == -9999) {
+                    System.out.println("숫자를 입력해 주세요.");
+                    System.out.println();
+                    continue;
+                }
+
                 // 뒤로 가기
                 if (choiceMenu == 0) {
                     showMainMenu = true;
@@ -85,6 +99,11 @@ public class Kiosk {
 
     private int getChoiceMenu(String label) {
         System.out.print(label + " 메뉴의 번호를 선택해 주세요: ");
-        return scanner.nextInt();
+        if (scanner.hasNextInt()) {
+            return scanner.nextInt();
+        } else {
+            scanner.nextLine();
+            return -9999;
+        }
     }
 }
