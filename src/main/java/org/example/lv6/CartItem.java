@@ -14,10 +14,6 @@ public class CartItem {
         return menuItem;
     }
 
-    public int getQuantity() {
-        return quantity;
-    }
-
     public void increaseQuantity() {
         quantity++;
     }

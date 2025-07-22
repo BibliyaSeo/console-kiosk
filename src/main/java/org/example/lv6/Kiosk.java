@@ -30,8 +30,7 @@ public class Kiosk {
                     System.out.println((i + 1) + ". " + menus.get(i).getCategory());
                 }
                 System.out.println("0. 종료      | 종료");
-
-
+                
                 int choiceMain;
 
                 // 오더 메뉴 보여주기
@@ -60,7 +59,6 @@ public class Kiosk {
                     System.out.println();
                     continue;
                 }
-
 
                 // shopping cart가 있을시 선택이 +2까지 가능하게 해야함 함
 
