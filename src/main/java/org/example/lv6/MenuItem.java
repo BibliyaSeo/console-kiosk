@@ -15,7 +15,15 @@ public class MenuItem {
     public String getName() {
         return name;
     }
-    
+
+    public double getPrice() {
+        return price;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
     // 구조에 맞게 함수를 선언해놓고 가져다 사용하세요.
     @Override
     public String toString() {
