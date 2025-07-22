@@ -102,10 +102,34 @@ public class Kiosk {
                         System.out.println("[ Total ]");
                         System.out.println("W " + total);
 
+                        System.out.println("1. 주문         2. 메뉴판");
+                        if (scanner.hasNextInt()) {
+                            int choice = scanner.nextInt();
+                            if (choice == 1) {
+                                // 주문 (주문이 완료 되었습니다. 쇼핑 카트 초기화)
+                                System.out.println("주문이 완료되었습니다. 금액은 W " + total + " 입니다.");
+                                shoppingCart.clear();
+                                System.out.println();
+                                showMainMenu = true;
+                            } else if (choice == 2) {
+                                // 메뉴판으로 돌아가기
+                                System.out.println();
+                                showMainMenu = true;
+                            } else {
+                                System.out.println("1번과 2번 중 골라주세요.");
+                                scanner.nextLine();
+                            }
+                        } else {
+                            System.out.println("1번과 2번 중 골라주세요.");
+                            scanner.nextLine();
+                        }
 
                     } else if (choiceMain == (menus.size() + 2)) {
                         // 진행중인 주문 취소 -> 쇼핑카트 리셋
-                        System.out.println("쇼핑카트 리셋하기");
+                        System.out.println("진행 중인 주문을 취소합니다.");
+                        shoppingCart.clear();
+                        System.out.println();
+                        showMainMenu = true;
                     } else {
                         System.out.println("해당 번호의 메뉴가 없습니다.");
                         System.out.println();
