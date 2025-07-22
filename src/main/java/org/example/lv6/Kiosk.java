@@ -14,7 +14,7 @@ public class Kiosk {
             MenuData.getDesserts()
     );
 
-    List<MenuItem> shoppingCart = new ArrayList<>();
+    List<CartItem> shoppingCart = new ArrayList<>();
 
     private boolean showMainMenu = true;
     private boolean showMenuItem = true;
@@ -90,24 +90,25 @@ public class Kiosk {
                         // 장바구니로 이동
                         showMainMenu = false;
                         showMenuItem = false;
+                        System.out.println();
                         System.out.println("[ Orders ]");
                         // 같은 거 골랐을 때 수량 체크해서 넣어줘야하낭?
                         double total = 0;
-                        for (MenuItem item : shoppingCart) {
+                        for (CartItem item : shoppingCart) {
                             System.out.println(item.toString());
-                            total += item.getPrice();
+                            total += item.getTotalPrice();
                         }
                         System.out.println();
                         // 장바구니 담은 거에서 값 합쳐줘야함
                         System.out.println("[ Total ]");
-                        System.out.println("W " + total);
+                        System.out.println(String.format("W %.2f", total));
 
                         System.out.println("1. 주문         2. 메뉴판");
                         if (scanner.hasNextInt()) {
                             int choice = scanner.nextInt();
                             if (choice == 1) {
                                 // 주문 (주문이 완료 되었습니다. 쇼핑 카트 초기화)
-                                System.out.println("주문이 완료되었습니다. 금액은 W " + total + " 입니다.");
+                                System.out.println("주문이 완료되었습니다. 금액은 W " + String.format("W %.2f", total) + " 입니다.");
                                 shoppingCart.clear();
                                 System.out.println();
                                 showMainMenu = true;
@@ -181,10 +182,23 @@ public class Kiosk {
                         System.out.println("위 메뉴를 장바구니에 추가하시겠습니까?");
                         System.out.println("1. 확인         2. 취소");
 
+
                         if (scanner.hasNextInt()) {
+                            boolean found = false;
                             int choice = scanner.nextInt();
                             if (choice == 1) {
-                                shoppingCart.add(menuItemByCategory);
+                                for (CartItem item : shoppingCart) {
+                                    if (item.getMenuItem().getName().equals(menuItemByCategory.getName())) {
+                                        // 같은 항목이 있으면 수량 증가
+                                        item.increaseQuantity();
+                                        found = true;
+                                        break;
+                                    }
+                                }
+                                // 겹치는 거 없으면 바로 추가
+                                if (!found) {
+                                    shoppingCart.add(new CartItem(menuItemByCategory));
+                                }
                                 System.out.println();
                                 System.out.println(menuItemByCategory.getName() + " 이 장바구니에 추가되었습니다.");
                                 System.out.println();
