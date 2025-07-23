@@ -28,7 +28,7 @@ public enum DiscountType {
         return discountRate;
     }
 
-    // 연산자 매칭 번호에 따라서 타입 return하기
+    // 번호에 따라서 타입 return하기
     public static DiscountType fromChoice(int choice) {
         for (DiscountType type : values()) {
             if (type.getChoice() == choice) {
