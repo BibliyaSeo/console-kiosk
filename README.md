@@ -82,3 +82,10 @@ getter, setter를 통한 안전한 데이터 접근
 
 람다를 통한 간결한 처리
 
+
+# 회고록 보기
+Lv1, Lv2 : https://www.notion.so/Lv1-Lv2-23255d5f00a080e39ac3e45c1c31fd4c?source=copy_link
+Lv3 : https://www.notion.so/Lv3-23255d5f00a080aca412c88207278543?source=copy_link
+Lv4, Lv5 : https://www.notion.so/Lv4-Lv5-23355d5f00a080878fa0c3ef054bcb4f?source=copy_link
+Lv6 : https://www.notion.so/Lv6-23755d5f00a0807bbb7aecb2e79eb9a5?source=copy_link
+Lv7 : https://www.notion.so/Lv7-23955d5f00a0802ca667cf08609cb511?source=copy_link
