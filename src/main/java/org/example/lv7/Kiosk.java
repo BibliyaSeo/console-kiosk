@@ -100,16 +100,45 @@ public class Kiosk {
                         // 장바구니 담은 거에서 값 합쳐줘야함
                         System.out.println("[ Total ]");
                         System.out.println(String.format("W %.2f", total));
-
                         System.out.println("1. 주문         2. 메뉴판");
                         if (scanner.hasNextInt()) {
                             int choice = scanner.nextInt();
                             if (choice == 1) {
                                 // 주문 (주문이 완료 되었습니다. 쇼핑 카트 초기화)
-                                System.out.println("주문이 완료되었습니다. 금액은 W " + String.format("W %.2f", total) + " 입니다.");
-                                shoppingCart.clear();
+                                // 할인 정보 추가
                                 System.out.println();
-                                showMainMenu = true;
+                                System.out.println("할인 정보를 입력해 주세요.");
+                                for (DiscountType type : DiscountType.values()) {
+                                    System.out.println(
+                                            type.getChoice() + ". " + type.getUserType() + " : " + (int) (type.getDiscountRate() * 100) + "%");
+                                }
+
+                                // 할인에 따른 total 가격 조절해야함
+                                if (scanner.hasNextInt()) {
+                                    int choiceType = scanner.nextInt();
+                                    if (choiceType > 0 && choiceType <= DiscountType.values().length) {
+                                        // 매칭해서 선택한 번호에 따라서 이넘 값 가져오기
+                                        DiscountType selected = DiscountType.fromChoice(choiceType);
+                                        double discountRate = selected.getDiscountRate();
+                                        double discountedTotal = total * (1 - discountRate);
+
+                                        if (choiceType == 4) {
+                                            System.out.println("주문이 완료되었습니다. 금액은 " + String.format("W %.2f", total) + " 입니다.");
+                                        } else {
+                                            System.out.println("주문이 완료되었습니다.\n할인이 적용된 금액은 " + String.format("W %.2f", discountedTotal) + "입니다.");
+                                        }
+
+                                        shoppingCart.clear();
+                                        System.out.println();
+                                        showMainMenu = true;
+                                    } else {
+                                        System.out.println("유효한 숫자를 입력해 주세요.");
+                                        scanner.nextLine();
+                                    }
+                                } else {
+                                    System.out.println("유효한 숫자를 입력해 주세요.");
+                                    scanner.nextLine();
+                                }
                             } else if (choice == 2) {
                                 // 메뉴판으로 돌아가기
                                 System.out.println();
