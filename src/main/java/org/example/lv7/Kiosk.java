@@ -3,6 +3,8 @@ package org.example.lv7;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class Kiosk {
     // 스캐너 선언
@@ -26,9 +28,15 @@ public class Kiosk {
             if (showMainMenu) {
                 // List와 Menu 클래스 활용하여 상위 카테고리 메뉴 출력
                 System.out.println("[MAIN MENU]");
-                for (int i = 0; i < menus.size(); i++) {
-                    System.out.println((i + 1) + ". " + menus.get(i).getCategory());
-                }
+                // for문 형식
+                /* for (int i = 0; i < menus.size(); i++) {
+                *    System.out.println((i + 1) + ". " + menus.get(i).getCategory());
+                } */
+
+                // IntStream 형식
+                IntStream.range(0, menus.size())
+                        .forEach(i -> System.out.println((i + 1) + ". " + menus.get(i).getCategory()));
+
                 System.out.println("0. 종료      | 종료");
 
                 int choiceMain;
@@ -91,11 +99,22 @@ public class Kiosk {
                         System.out.println();
                         System.out.println("[ Orders ]");
                         // 같은 거 골랐을 때 수량 체크해서 넣어줘야하낭? -> 밑에서 해결
-                        double total = 0;
-                        for (CartItem item : shoppingCart) {
-                            System.out.println(item.toString());
-                            total += item.getTotalPrice();
-                        }
+
+                        // for문 사용시
+                        // double total = 0;
+                        /* for (CartItem item : shoppingCart) {
+                        *    System.out.println(item.toString());
+                        *    total += item.getTotalPrice();
+                        }*/
+
+                        // Stream 사용
+                        // 근데 여기서 SmokeShack 값만 빼고 싶다면?? .filter()이용해서.
+                        double total = shoppingCart.stream()
+                                .filter(item -> !item.getMenuItem().getName().equals("SmokeShack"))
+                                .peek(item -> System.out.println(item))
+                                .mapToDouble(item -> item.getTotalPrice())
+                                .sum();
+
                         System.out.println();
                         // 장바구니 담은 거에서 값 합쳐줘야함
                         System.out.println("[ Total ]");
@@ -108,10 +127,18 @@ public class Kiosk {
                                 // 할인 정보 추가
                                 System.out.println();
                                 System.out.println("할인 정보를 입력해 주세요.");
-                                for (DiscountType type : DiscountType.values()) {
-                                    System.out.println(
-                                            type.getChoice() + ". " + type.getUserType() + " : " + (int) (type.getDiscountRate() * 100) + "%");
-                                }
+
+                                // for문 사용
+                                /* for (DiscountType type : DiscountType.values()) {
+                                *    System.out.println(
+                                *            type.getChoice() + ". " + type.getUserType() + " : " + (int) (type.getDiscountRate() * 100) + "%");
+                                } */
+
+                                // Stream 사용
+                                Stream.of(DiscountType.values())
+                                        .forEach(type -> System.out.println(
+                                                type.getChoice() + ". " + type.getUserType() + " : " + (int) (type.getDiscountRate() * 100) + "%"
+                                        ));
 
                                 // 할인에 따른 total 가격 조절해야함
                                 if (scanner.hasNextInt()) {
@@ -125,7 +152,7 @@ public class Kiosk {
                                         if (choiceType == 4) {
                                             System.out.println("주문이 완료되었습니다. 금액은 " + String.format("W %.2f", total) + " 입니다.");
                                         } else {
-                                            System.out.println("주문이 완료되었습니다.\n할인이 적용된 금액은 " + String.format("W %.2f", discountedTotal) + "입니다.");
+                                            System.out.println("주문이 완료되었습니다.\n할인이 적용된 금액은 " + String.format("W %.2f", discountedTotal) + " 입니다.");
                                         }
 
                                         shoppingCart.clear();
@@ -172,9 +199,16 @@ public class Kiosk {
                     System.out.println("[" + menuByCategory.getCategory().toUpperCase() + " MENU]");
                     List<MenuItem> menuItems = menuByCategory.getMenuItems();
                     // Menu가 가진 List<MenuItem>을 반복문을 활용하여 햄버거 메뉴 출력
-                    for (int i = 0; i < menuItems.size(); i++) {
-                        System.out.println((i + 1) + ". " + menuItems.get(i));
-                    }
+
+                    // for문 사용
+                    /* for (int i = 0; i < menuItems.size(); i++) {
+                    *    System.out.println((i + 1) + ". " + menuItems.get(i));
+                    } */
+
+                    // IntStream 사용
+                    IntStream.range(0, menuItems.size())
+                            .forEach(i -> System.out.println((i + 1) + ". " + menuItems.get(i)));
+
                     System.out.println("0. 메인 메뉴로    | 뒤로가기");
 
                     // 숫자 입력 받기
@@ -214,6 +248,7 @@ public class Kiosk {
                             boolean found = false;
                             int choice = scanner.nextInt();
                             if (choice == 1) {
+                                // stream으로 바꾸려 했는데... 포기! for문으로 그냥 둠
                                 for (CartItem item : shoppingCart) {
                                     if (item.getMenuItem().getName().equals(menuItemByCategory.getName())) {
                                         // 같은 항목이 있으면 수량 증가
